@@ -37,7 +37,6 @@
  */
 
 // Brute Force Solution
-
 const findMedianSortedArrays = function (nums1, nums2) {
     const totalLength = nums1.length + nums2.length;
 
@@ -78,4 +77,44 @@ const findCombinedIndexAt = (nums1, nums2, index) => {
     if (p1 >= nums1.length) return nums2[p2];
     if (p2 >= nums2.length) return nums1[p1];
     return nums1[p1] < nums2[p2] ? nums1[p1] : nums2[p2];
+}
+
+// More Efficient Solution with O(log(Min(m, n)))
+// This video helped a lot with understanding the algo: https://www.youtube.com/watch?v=LPFhl65R7ww
+
+const findMedianSortedArrays = function (nums1, nums2) {
+    if (nums1.length > nums2.length)
+        return findMedianSortedArrays(nums2, nums1);
+
+    let x = nums1.length;
+    let y = nums2.length;
+
+    let low = 0;
+    let high = x;
+
+    while (low <= high) {
+        let partitionX = Math.ceil((high + low) / 2);
+        let partitionY = Math.ceil((x + y) / 2) - partitionX;
+
+        let xLeft = partitionX === 0 ? Number.NEGATIVE_INFINITY : nums1[partitionX - 1];
+        let xRight = partitionX === x ? Number.POSITIVE_INFINITY : nums1[partitionX];
+
+        let yLeft = partitionY === 0 ? Number.NEGATIVE_INFINITY : nums2[partitionY - 1];
+        let yRight = partitionY === y ? Number.POSITIVE_INFINITY : nums2[partitionY];
+
+        if (xLeft <= yRight && yLeft <= xRight) {
+            if ((x + y) % 2 === 0) {
+                return (Math.max(xLeft, yLeft) + Math.min(xRight, yRight)) / 2;
+            } else {
+                return Math.max(xLeft, yLeft);
+            }
+        }
+        else if (xLeft > yRight) {
+            high = partitionX - 1;
+        } else {
+            low = partitionX + 1;
+        }
+    }
+
+    return 0;
 }
