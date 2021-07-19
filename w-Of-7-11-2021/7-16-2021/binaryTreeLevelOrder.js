@@ -1,7 +1,7 @@
 // https://leetcode.com/problems/binary-tree-level-order-traversal/
 // 7/16/2021
 
-const levelOrder = function (root) {
+const levelOrder = root => {
     if (!root) return [];
     const Q = [root, -1];
     const ordered = [];
