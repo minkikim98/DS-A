@@ -48,7 +48,6 @@ const spiralOrder = (matrix) => {
 
     let rowBegin = 0, rowEnd = numRows - 1, colBegin = 0, colEnd = numCols - 1;
 
-
     while (res.length < totalElements) {
         for (let i = colBegin; i <= colEnd && res.length < totalElements; i++)
             res.push(matrix[rowBegin][i]);
