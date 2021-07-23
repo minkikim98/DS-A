@@ -20,3 +20,21 @@ const sumHelper = (root, currNum, allNumbers) => {
     if (root.right) 
         sumHelper(root.right, currNum * 10 + root.val, allNumbers);
 }
+
+// Alternate version, slighly more concise
+const sumNumbers = function (root) {
+    const allNumbers = [];
+    sumHelper(root, 0, allNumbers);
+
+    return allNumbers.reduce((acc, curr) => acc + curr, 0);
+};
+
+const sumHelper = (root, currNum, allNumbers) => {
+    if (!root) return;
+
+    if (!root.left && !root.right)
+        allNumbers.push(currNum * 10 + root.val);
+
+    sumHelper(root.left, currNum * 10 + root.val, allNumbers);
+    sumHelper(root.right, currNum * 10 + root.val, allNumbers);
+}
